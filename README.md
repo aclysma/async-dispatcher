@@ -2,7 +2,7 @@
 An experiment to adapt [shred](https://github.com/slide-rs/shred) for use with async code.
 
 The goal of this experiment is to allow asynchronous tasks to acquire resources. For example, if you wanted to
-load data from disk or network and pass it to a shred resource, with this crate you could await an IO task and then
+load data from disk or network and pass it to a shred resource, using this approach you could await an IO task and then
 continue it with acquiring and using the resource that is going to receive the data.
 
 ```rust
@@ -17,7 +17,7 @@ tokio::spawn(
 ```
 
 As this code is written there are significant advantages and disadvantages for using this approach vs. shred. I think
-many of the disadvantages could be removed with more work, but likely there would remain some trade-off between the two.
+many of the disadvantages could be removed with more work, but likely there would remain some trade-offs between the two.
 
 ## Usage
 
@@ -64,9 +64,9 @@ tokio::spawn(
 
 ## Advantages:
 
-* **Lower latency for completion of async tasks:** Normally with shred, you might need to set up a queue and have something
-pull from that queue once every frame. Much of the time this is fine, but sometimes, especially if multiple
-"sync points", the frame delay this incurs is undesirable. This approach permits writing to the resource safely with
+* **Lower latency for completion of async tasks:** A queue is commonly used to allow pulling data from an async event
+into the game loop once every frame. Much of the time this is fine, but sometimes, especially if multiple
+"sync points" exist, the frame delay this incurs is undesirable. This approach permits writing to the resource safely with
 only the delay required to acquire the locks.
 
 * **Responsive Dispatching:** Shred sets up the order of execution at startup and does not adjust in realtime. If a game
@@ -76,11 +76,11 @@ flexible since as resources become available, any pending tasks will always try 
 
 ## Disadvantages:
 
-* **Increased overhead:** This approach introduces a short critical path for determining if resources can be dispatched. If
-the units of work being dispatched were extremely short, the overhead of this approach might be significant.
+* **Increased overhead:** This approach introduces a short critical path for locking access to resources. If
+the units of work being dispatched are extremely short, the overhead of this approach might be significant.
 
-* **Non-deterministic:** A queue-draining approach mentioned above actually has a tremendous benefit - that since the queued
-work will always be processed at the same time during a frame, this avoid unreliable timing-based bugs.
+* **Non-deterministic:** A queue-draining approach mentioned above actually has a tremendous benefit - if the queued
+work is always processed at the same time during a frame, certain timing-based bugs may be avoided.
 
 ## Future Work:
 
