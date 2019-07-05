@@ -1,5 +1,5 @@
 # async-dispatcher
-An experiment to make something like shred that is more async-friendly.
+An experiment to adapt [shred](https://github.com/slide-rs/shred) for use with async code.
 
 The goal of this experiment is to allow asynchronous tasks to acquire resources. For example, if you wanted to
 load data from disk or network and pass it to a shred resource, with this crate you could await an IO task and then
@@ -19,12 +19,12 @@ tokio::spawn(
 As this code is written there are significant advantages and disadvantages for using this approach vs. shred. I think
 many of the disadvantages could be removed with more work, but likely there would remain some trade-off between the two.
 
-## Example Usage
+## Usage
 
 Complete examples here:
-* hello_world - Near-minimal example usage 
-* game_loop - A more typical usage with several system executed in sequence and parallel
-* async - A simple example showing how using async code might work
+* [hello_world](https://github.com/aclysma/async-dispatcher/blob/master/examples/hello_world.rs) - Near-minimal example usage 
+* [game_loop](https://github.com/aclysma/async-dispatcher/blob/master/examples/game_loop.rs) - A more typical usage with several system executed in sequence and parallel
+* [async](https://github.com/aclysma/async-dispatcher/blob/master/examples/async.rs) - A simple example showing how using async code might work
  
 
 An empty shred resource
@@ -101,3 +101,13 @@ more difficult to accidentally use Read/Write (possibly this crate could export 
 completing a frame in the past and make sure those tasks get the first chance at acquiring resources
 
 * **Instrumentation:** Would be great to have some way to track what tasks are running and how long they are taking
+
+## Contribution
+
+All contributions are assumed to be dual-licensed under MIT/Apache-2.
+
+## License
+
+Distributed under the terms of both the MIT license and the Apache License (Version 2.0).
+
+See [LICENSE-APACHE](LICENSE-APACHE) and [LICENSE-MIT](LICENSE-MIT).
