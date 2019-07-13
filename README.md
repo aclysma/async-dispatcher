@@ -1,6 +1,8 @@
 # async-dispatcher
 An experiment to adapt [shred](https://github.com/slide-rs/shred) for use with async code.
 
+A more reusable implementation here: [async-dispatcher-lib](https://github.com/aclysma/async-dispatcher-lib)
+
 The goal of this experiment is to allow asynchronous tasks to acquire resources. For example, if you wanted to
 load data from disk or network and pass it to a shred resource, using this approach you could await an IO task and then
 continue it with acquiring and using the resource that is going to receive the data.
